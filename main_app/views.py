@@ -16,7 +16,7 @@ class Home(APIView):
 
 # Define the login view
 
-class LoginView(APIView):
+class Login(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
@@ -43,7 +43,7 @@ class LoginView(APIView):
     
   #VerifyUserView
   
-class VerifyUserView(APIView):
+class VerifyUser(APIView):
   #This ensures that only authenticated users can access this view.
   permission_classes = [permissions.IsAuthenticated]
   #request: Represents the HTTP request received
@@ -62,7 +62,7 @@ class VerifyUserView(APIView):
   # think we do not need one list and create because list = list and create = create so they do both, they inhere both, get and post 
   
   
-class CoursesView(generics.ListCreateAPIView):
+class CourseList(generics.ListCreateAPIView):
   permission_classes = [permissions.IsAuthenticated]
   queryset = Course.objects.all()
   serializer_class = CourseSerializer
@@ -70,34 +70,34 @@ class CoursesView(generics.ListCreateAPIView):
   
   #CreateCourseView
   
-#class CreateCourseView(generics.CreateAPIView):
-  #permission_classes = [permissions.IsAuthenticated]
-  #queryset = Course.objects.all()
-  #serializer_class = CourseSerializer
+class CreateCourse(generics.CreateAPIView):
+  permission_classes = [permissions.IsAuthenticated]
+  queryset = Course.objects.all()
+  serializer_class = CourseSerializer
   
   #CourseView
   
-class CourseView(generics.RetrieveUpdateDestroyAPIView):
+class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
   permission_classes = [permissions.IsAuthenticated]
   queryset = Course.objects.all()
   serializer_class = CourseSerializer
   
   #CourseStaffView
   
-class CourseStaffView(generics.ListCreateAPIView):
+class CourseStaff(generics.ListCreateAPIView):
   permission_classes = [permissions.IsAuthenticated]
   queryset = Course.objects.all()
   serializer_class = CourseStaffSerializer
   
   #StudentEnrollmentView
-class StudentEnrollmentView(generics.ListCreateAPIView):
+class StudentEnrollment(generics.ListCreateAPIView):
   permission_classes = [permissions.IsAuthenticated]
   queryset = Course.objects.all()
   serializer_class = StudentEnrollmentSerializer
  
     
  #AssignmentsView
-class AssignmentsView(generics.ListCreateAPIView):
+class AssignmentList(generics.ListCreateAPIView):
    permission_classes = [permissions.IsAuthenticated]
    queryset = Course.objects.all()
    serializer_class = AssignmentSerializer
@@ -105,14 +105,14 @@ class AssignmentsView(generics.ListCreateAPIView):
  
  #CreateAssignmentView
  
-class CreateAssignmentView(generics.CreateAPIView):
+class CreateAssignment(generics.CreateAPIView):
    permission_classes = [permissions.IsAuthenticated]
    queryset = Course.objects.all()
    serializer_class = AssignmentSerializer
  
  #AssignmentView
  
-class AssignmentView(generics.RetrieveUpdateDestroyAPIView):
+class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
    permission_classes = [permissions.IsAuthenticated]
    queryset = Course.objects.all()
    serializer_class = AssignmentSerializer
@@ -120,7 +120,7 @@ class AssignmentView(generics.RetrieveUpdateDestroyAPIView):
  
  #StudentsView
  
-class StudentsView(generics.ListCreateAPIView):
+class StudentList(generics.ListCreateAPIView):
    permission_classes = [permissions.IsAuthenticated]
    queryset = Course.objects.all()
    serializer_class = UserSerializer
