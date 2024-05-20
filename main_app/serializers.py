@@ -12,12 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = StudentEnrollment
-		fields = ['id']
-
-
-class StudentDetailSerializer(serializers.ModelSerializer):
   name = serializers.SerializerMethodField()
   assignment_percentage = serializers.SerializerMethodField()
   absences = serializers.SerializerMethodField()
@@ -44,15 +38,32 @@ class StudentDetailSerializer(serializers.ModelSerializer):
     return total
 
 
+class AssignmentListSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Assignment
+		fields = ['id', 'name', 'due_date']
+
+
 class CourseSerializer(serializers.ModelSerializer):
-	students = StudentDetailSerializer(many=True, read_only=True)
-	# assignments = 
+	students = StudentSerializer(many=True, read_only=True)
+	assignments = AssignmentListSerializer(many=True, read_only=True)
 	
 	class Meta:
 		model = Course
-		# fields = '__all__'
-		fields = ['id', 'name', 'students']
+		fields = ['id', 'name', 'students', 'assignments']
 
+class SubmissionSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Submission
+    fields = '__all__'
+    read_only_fields = ['student', 'assignment']
+
+
+class AssignmentDetailSerializer(serializers.ModelSerializer):
+  submissions = SubmissionSerializer(many=True, read_only=True)
+  class Meta:
+    model = Assignment
+    fields = ['id', 'name', 'due_date', 'submissions']
 
 class StudentEnrollmentSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -66,20 +77,6 @@ class CourseStaffSerializer(serializers.ModelSerializer):
         model = CourseStaff
         fields = '__all__'
         read_only_fields = ['course', 'user']
-
-
-class AssignmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Assignment
-        fields = '__all__'
-        read_only_fields = ['course']
-
-
-class SubmissionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Submission
-        fields = '__all__'
-        read_only_fields = ['student', 'assignment']
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
