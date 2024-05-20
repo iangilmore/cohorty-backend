@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status, permissions
 from .models import Course, Assignment, CourseStaff, StudentEnrollment, Submission, Attendance
-from .serializers import CourseSerializer, AssignmentSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, StudentDetailSerializer
+from .serializers import CourseSerializer, AssignmentListSerializer, AssignmentDetailSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, StudentSerializer
 # from .serializers import UserSerializerWithToken, CourseListSerializer, CourseDetailSerializer, StudentListSerializer
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import PermissionDenied
@@ -81,6 +81,14 @@ class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
 	serializer_class = CourseSerializer
 	lookup_field = 'id'
 
+	# def get_queryset(self):
+	# 	return Course.objects.filter(id=self.kwargs['course_id'])
+	
+	# def retrieve(self, request, *args, **kwargs):
+	# 	instance = self.get_object()
+	# 	serializer = self.get_serializer(instance)
+	# 	return Response(serializer.data)
+
 
 #CourseStaffView
 class CourseStaff(generics.ListCreateAPIView):
@@ -92,38 +100,43 @@ class CourseStaff(generics.ListCreateAPIView):
 #StudentEnrollmentView
 class StudentEnrollmentView(generics.ListCreateAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
-	queryset = Course.objects.all()
+	queryset = StudentEnrollment.objects.all()
 	serializer_class = StudentEnrollmentSerializer
 	lookup_field = 'id'
+
+	#TODO Needs Testing
+	def perform_create(self, serializer):
+		serializer.save(course_id=self.kwargs['id'], user_id=self.kwargs['user_id'])
 
 
 #AssignmentsView
 class AssignmentList(generics.ListCreateAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
-	queryset = Course.objects.all()
-	serializer_class = AssignmentSerializer
+	serializer_class = AssignmentListSerializer
+	
+	def get_queryset(self):
+		return Assignment.objects.filter(course_id=self.kwargs['id'])
 
 
 #CreateAssignmentView
 class CreateAssignment(generics.CreateAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
-	queryset = Course.objects.all()
-	serializer_class = AssignmentSerializer
+	serializer_class = AssignmentListSerializer
 
 
 #AssignmentView
 class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
 	#	permission_classes = [permissions.IsAuthenticated]
-	queryset = Course.objects.all()
-	serializer_class = AssignmentSerializer
+	queryset = Assignment.objects.all()
+	serializer_class = AssignmentDetailSerializer
+	lookup_field = 'id'
 
-
-#StudentsView
+#StudentsView 
 class StudentList(generics.ListCreateAPIView):
 	permission_classes = [permissions.IsAuthenticated]
 
 class StudentDetail(generics.RetrieveAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
 	queryset = StudentEnrollment.objects.all()
-	serializer_class = StudentDetailSerializer
+	serializer_class = StudentSerializer
 	lookup_field = 'id'
