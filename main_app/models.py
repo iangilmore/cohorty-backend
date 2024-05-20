@@ -8,11 +8,14 @@ class Course(models.Model):
     return self.name
 
 
+#calculations for 
+
 class StudentEnrollment(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
   def __str__(self):
+    
     return f"{self.user} is enrolled in a {self.course}"
 
 
@@ -50,3 +53,5 @@ class Attendance(models.Model):
   
   def __str__(self):
     return f"{self.student} was {self.status} on {self.date}"
+  
+  

@@ -2,7 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status, permissions
 from .models import Course, Assignment, CourseStaff, StudentEnrollment, Submission, Attendance
-from .serializers import CourseSerializer, AssignmentSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer # type: ignore
+from .serializers import CourseSerializer, AssignmentSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, UserSerializerWithToken, CourseListSerializer, CourseDetailSerializer, StudentListSerializer, StudentDetailSerializer
+# type: ignore
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import PermissionDenied
 from rest_framework_simplejwt.tokens import RefreshToken # type: ignore
@@ -122,8 +123,15 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
  
 class StudentList(generics.ListCreateAPIView):
    permission_classes = [permissions.IsAuthenticated]
-   queryset = Course.objects.all()
-   serializer_class = UserSerializer
+   
+   
+class StudentDetail(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = StudentEnrollment.objects.all()
+    serializer_class = StudentDetailSerializer
+    lookup_field = 'id'
+   
+   
  
 
     
