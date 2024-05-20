@@ -58,13 +58,13 @@ class VerifyUser(APIView):
 			'user': UserSerializer(user).data
 			})
 
+
 #CoursesView
 # think we do not need one list and create because list = list and create = create so they do both, they inhere both, get and post 
 class CourseList(generics.ListCreateAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
 	queryset = Course.objects.all()
 	serializer_class = CourseSerializer
-
 
 
 #CreateCourseView
@@ -79,6 +79,7 @@ class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
 	queryset = Course.objects.all()
 	serializer_class = CourseSerializer
+	lookup_field = 'id'
 
 
 #CourseStaffView
@@ -93,6 +94,7 @@ class StudentEnrollmentView(generics.ListCreateAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
 	queryset = Course.objects.all()
 	serializer_class = StudentEnrollmentSerializer
+	lookup_field = 'id'
 
 
 #AssignmentsView
