@@ -15,8 +15,7 @@ class StudentEnrollment(models.Model):
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
   def __str__(self):
-    
-    return f"{self.user} is enrolled in a {self.course}"
+    return f"{self.user.first_name} {self.user.last_name}"
 
 
 class CourseStaff(models.Model):
@@ -24,8 +23,7 @@ class CourseStaff(models.Model):
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
   
   def __str__(self):
-    return f"{self.user} is assigned as staff for {self.course}"
-
+    return f"{self.user.first_name} {self.user.last_name}"
 
 class Assignment(models.Model):
   course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -42,7 +40,7 @@ class Submission(models.Model):
   is_complete = models.BooleanField(default=False)
   
   def __str__(self):
-    return f"{self.student} has submitted {self.assignment}"
+    return f"{self.assignment} from {self.student}"
 
 
 class Attendance(models.Model):
