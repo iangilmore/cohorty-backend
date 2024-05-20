@@ -2,11 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status, permissions
 from .models import Course, Assignment, CourseStaff, StudentEnrollment, Submission, Attendance
-from .serializers import CourseSerializer, AssignmentSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, UserSerializerWithToken, CourseListSerializer, CourseDetailSerializer, StudentListSerializer, StudentDetailSerializer
-# type: ignore
+from .serializers import CourseSerializer, AssignmentSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, StudentDetailSerializer
+# from .serializers import UserSerializerWithToken, CourseListSerializer, CourseDetailSerializer, StudentListSerializer
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import PermissionDenied
-from rest_framework_simplejwt.tokens import RefreshToken # type: ignore
+from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 # Define the home vie
 class Home(APIView):
@@ -91,7 +91,7 @@ class CourseStaff(generics.ListCreateAPIView):
   serializer_class = CourseStaffSerializer
   
   #StudentEnrollmentView
-class StudentEnrollment(generics.ListCreateAPIView):
+class StudentEnrollmentView(generics.ListCreateAPIView):
   permission_classes = [permissions.IsAuthenticated]
   queryset = Course.objects.all()
   serializer_class = StudentEnrollmentSerializer
@@ -130,15 +130,3 @@ class StudentDetail(generics.RetrieveAPIView):
     queryset = StudentEnrollment.objects.all()
     serializer_class = StudentDetailSerializer
     lookup_field = 'id'
-   
-   
- 
-
-    
-    
-
-
-  
-
-
-    
