@@ -37,7 +37,6 @@ class StudentSerializer(serializers.ModelSerializer):
     total = round(absences.count() * 1 + lates.count() * 0.333, 2)
     return total
 
-
 class AssignmentListSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Assignment
@@ -53,11 +52,9 @@ class CourseSerializer(serializers.ModelSerializer):
 		fields = ['id', 'name', 'students', 'assignments']
 
 class SubmissionSerializer(serializers.ModelSerializer):
-  student = serializers.StringRelatedField()
-  # student_id = serializers.PrimaryKeyRelatedField(queryset=StudentEnrollment.objects.all(), source='student')
   class Meta:
     model = Submission
-    fields = ['id', 'student', 'is_complete']
+    fields = ['id', 'student', 'is_complete', 'assignment']
 
 
 class AssignmentDetailSerializer(serializers.ModelSerializer):
@@ -65,6 +62,7 @@ class AssignmentDetailSerializer(serializers.ModelSerializer):
   class Meta:
     model = Assignment
     fields = ['id', 'name', 'due_date', 'submissions']
+
 
 class StudentEnrollmentSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -81,7 +79,28 @@ class CourseStaffSerializer(serializers.ModelSerializer):
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Attendance
-        fields = '__all__'
-        read_only_fields = ['student', 'course']
+  student = serializers.StringRelatedField()
+  class Meta:
+    model = Attendance
+    fields = ['id', 'date', 'status', 'student']
+
+
+class StudentDetailSerializer(serializers.ModelSerializer):
+  name = serializers.SerializerMethodField()
+  submissions = serializers.SerializerMethodField()
+  attendance = serializers.SerializerMethodField()
+  
+  class Meta:
+    model = StudentEnrollment
+    fields = ['id', 'name', 'submissions', 'attendance']
+    
+  def get_name(self, obj):
+    return obj.name()
+  
+  def get_submissions(self, obj):
+    submissions = Submission.objects.filter(student=obj)
+    return SubmissionSerializer(submissions, many=True).data
+  
+  def get_attendance(self, obj):
+    attendance = Attendance.objects.filter(student=obj)
+    return AttendanceSerializer(attendance, many=True).data

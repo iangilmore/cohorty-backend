@@ -14,8 +14,5 @@ urlpatterns = [
   path('<int:id>/assignment/', CreateAssignment.as_view(), name='create_assignment'),
   path('<int:course_id>/assignment/<int:id>/', AssignmentDetail.as_view(), name='assignment'),
   path('<int:id>/students/', StudentList.as_view(), name='students'),
-#  path('<int:course_id>/student/<int:id>/', StudentDetail.as_view(), name='student'),
-path('<int:student_enrollment_id>/', StudentDetail.as_view(), name='student_detail')
+  path('<int:course_id>/student/<int:id>/', StudentDetail.as_view(), name='student'),
   ]
-
-  
