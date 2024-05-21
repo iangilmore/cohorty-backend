@@ -53,10 +53,11 @@ class CourseSerializer(serializers.ModelSerializer):
 		fields = ['id', 'name', 'students', 'assignments']
 
 class SubmissionSerializer(serializers.ModelSerializer):
+  student = serializers.StringRelatedField()
+  # student_id = serializers.PrimaryKeyRelatedField(queryset=StudentEnrollment.objects.all(), source='student')
   class Meta:
     model = Submission
-    fields = '__all__'
-    read_only_fields = ['student', 'assignment']
+    fields = ['id', 'student', 'is_complete']
 
 
 class AssignmentDetailSerializer(serializers.ModelSerializer):
