@@ -45,6 +45,10 @@ class Submission(models.Model):
   
   def __str__(self):
     return f"{self.assignment} from {self.student}"
+  
+  class Meta:
+    unique_together = ('assignment', 'student')
+
 
 
 class Attendance(models.Model):

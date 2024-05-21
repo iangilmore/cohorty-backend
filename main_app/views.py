@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, status, permissions
 from .models import Course, Assignment, CourseStaff, StudentEnrollment, Submission, Attendance
-from .serializers import CourseSerializer, AssignmentListSerializer, AssignmentDetailSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, StudentSerializer
+from .serializers import CourseSerializer, AssignmentListSerializer, AssignmentDetailSerializer, CourseStaffSerializer, StudentEnrollmentSerializer, SubmissionSerializer, AttendanceSerializer, UserSerializer, StudentSerializer, StudentDetailSerializer
 # from .serializers import UserSerializerWithToken, CourseListSerializer, CourseDetailSerializer, StudentListSerializer
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import PermissionDenied
@@ -125,10 +125,41 @@ class CreateAssignment(generics.CreateAPIView):
 
 #AssignmentView
 class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
-	#	permission_classes = [permissions.IsAuthenticated]
+	# permission_classes = [permissions.IsAuthenticated]
 	queryset = Assignment.objects.all()
 	serializer_class = AssignmentDetailSerializer
 	lookup_field = 'id'
+
+	def put(self, request, *args, **kwargs):
+		assignment = self.get_object()
+		submissions_data = request.data.get('submissions', [])
+
+		existing_submissions = Submission.objects.filter(assignment=assignment)
+
+		submission_ids = set(submission_data.get('id') for submission_data in submissions_data)
+
+		for submission in existing_submissions:
+			if submission.id not in submission_ids:
+				submission.delete()
+
+		for submission_data in submissions_data:
+			submission_id = submission_data.get('id')
+
+			if submission_id:
+				submission = Submission.objects.filter(id=submission_id).first()
+
+				if submission:
+					serializer = SubmissionSerializer(submission, data=submission_data)
+
+					if serializer.is_valid():
+						serializer.save()
+			else:
+				serializer = SubmissionSerializer(data=submission_data)
+
+				if serializer.is_valid():
+					serializer.save(assignment=assignment)
+
+		return self.update(request, *args, **kwargs)
 
 #StudentsView 
 class StudentList(generics.ListCreateAPIView):
@@ -143,5 +174,5 @@ class StudentList(generics.ListCreateAPIView):
 class StudentDetail(generics.RetrieveAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
 	queryset = StudentEnrollment.objects.all()
-	serializer_class = StudentSerializer
+	serializer_class = StudentDetailSerializer
 	lookup_field = 'id'
