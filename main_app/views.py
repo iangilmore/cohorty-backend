@@ -132,7 +132,13 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
 
 #StudentsView 
 class StudentList(generics.ListCreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+  # permission_classes = [permissions.IsAuthenticated]
+  serializer_class = StudentSerializer
+  lookup_field = 'id'
+  
+  def get_queryset(self):
+    return StudentEnrollment.objects.filter(course_id=self.kwargs['id'])
+
 
 class StudentDetail(generics.RetrieveAPIView):
 	# permission_classes = [permissions.IsAuthenticated]
