@@ -53,11 +53,9 @@ class CourseSerializer(serializers.ModelSerializer):
 		fields = ['id', 'name', 'students', 'assignments']
 
 class SubmissionSerializer(serializers.ModelSerializer):
-  student = serializers.StringRelatedField()
-  # student_id = serializers.PrimaryKeyRelatedField(queryset=StudentEnrollment.objects.all(), source='student')
   class Meta:
     model = Submission
-    fields = ['id', 'student', 'is_complete']
+    fields = ['id', 'student', 'is_complete', 'assignment']
 
 
 class AssignmentDetailSerializer(serializers.ModelSerializer):
