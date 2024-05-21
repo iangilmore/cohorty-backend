@@ -10,10 +10,10 @@ urlpatterns = [
   path('<int:id>/', CourseDetail.as_view(), name='course_detail'),
   path('<int:course_id>/staff/<int:user_id>/', CourseStaff.as_view(), name='course_staff'),
   path('<int:course_id>/student-enrollment/<int:user_id>/', StudentEnrollmentView.as_view(), name='student_enrollment'),
-  path('<int:course_id>/assignments/', AssignmentList.as_view(), name='assignments'),
-  path('<int:course_id>/assignment/', CreateAssignment.as_view(), name='create_assignment'),
+  path('<int:id>/assignments/', AssignmentList.as_view(), name='assignments'),
+  path('<int:id>/assignment/', CreateAssignment.as_view(), name='create_assignment'),
   path('<int:course_id>/assignment/<int:id>/', AssignmentDetail.as_view(), name='assignment'),
-  path('<int:course_id>/students/', StudentList.as_view(), name='students'),
+  path('<int:id>/students/', StudentList.as_view(), name='students'),
 #  path('<int:course_id>/student/<int:id>/', StudentDetail.as_view(), name='student'),
 path('<int:student_enrollment_id>/', StudentDetail.as_view(), name='student_detail')
   ]

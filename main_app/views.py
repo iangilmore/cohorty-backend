@@ -111,11 +111,10 @@ class StudentEnrollmentView(generics.ListCreateAPIView):
 
 #AssignmentsView
 class AssignmentList(generics.ListCreateAPIView):
-	# permission_classes = [permissions.IsAuthenticated]
-	serializer_class = AssignmentListSerializer
-	
-	def get_queryset(self):
-		return Assignment.objects.filter(course_id=self.kwargs['id'])
+  # permission_classes = [permissions.IsAuthenticated]
+  queryset = Assignment.objects.all()
+  serializer_class = AssignmentListSerializer
+  lookup_field = 'id'
 
 
 #CreateAssignmentView
