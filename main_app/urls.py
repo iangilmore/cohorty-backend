@@ -19,7 +19,7 @@ urlpatterns = [
     path("courses/", Courses.as_view(), name="courses"),
     path("courses/<int:id>/", CourseDetail.as_view(), name="course_detail"),
     path(
-        "courses/<int:course_id>/staff/<int:user_id>/",
+        "courses/<int:course_id>/staff/",
         Staff.as_view(),
         name="course_staff",
     ),
