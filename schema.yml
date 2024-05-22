@@ -14,541 +14,6 @@ paths:
       responses:
         '200':
           description: No response body
-  /{course_id}/assignment/{id}/:
-    get:
-      operationId: assignment_retrieve
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignment
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AssignmentDetail'
-          description: ''
-    put:
-      operationId: assignment_update
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AssignmentDetail'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/AssignmentDetail'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/AssignmentDetail'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AssignmentDetail'
-          description: ''
-    patch:
-      operationId: assignment_partial_update
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedAssignmentDetail'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedAssignmentDetail'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedAssignmentDetail'
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AssignmentDetail'
-          description: ''
-    delete:
-      operationId: assignment_destroy
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignment
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /{course_id}/staff/{user_id}/:
-    get:
-      operationId: staff_list
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - staff
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CourseStaff'
-          description: ''
-    post:
-      operationId: staff_create
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - staff
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CourseStaff'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CourseStaff'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/CourseStaff'
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CourseStaff'
-          description: ''
-  /{course_id}/student-enrollment/{user_id}/:
-    get:
-      operationId: student_enrollment_list
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - student-enrollment
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/StudentEnrollment'
-          description: ''
-    post:
-      operationId: student_enrollment_create
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: user_id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - student-enrollment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StudentEnrollment'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/StudentEnrollment'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/StudentEnrollment'
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StudentEnrollment'
-          description: ''
-  /{course_id}/student/{id}/:
-    get:
-      operationId: student_retrieve
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - student
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StudentDetail'
-          description: ''
-  /{id}/:
-    get:
-      operationId: root_retrieve_2
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
-    put:
-      operationId: root_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Course'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Course'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Course'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
-    patch:
-      operationId: root_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedCourse'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedCourse'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedCourse'
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
-    delete:
-      operationId: root_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '204':
-          description: No response body
-  /{id}/assignment/:
-    post:
-      operationId: assignment_create
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AssignmentList'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/AssignmentList'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/AssignmentList'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AssignmentList'
-          description: ''
-  /{id}/assignments/:
-    get:
-      operationId: assignments_list
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignments
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AssignmentList'
-          description: ''
-    post:
-      operationId: assignments_create
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - assignments
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AssignmentList'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/AssignmentList'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/AssignmentList'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AssignmentList'
-          description: ''
-  /{id}/students/:
-    get:
-      operationId: students_list
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - students
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Student'
-          description: ''
-    post:
-      operationId: students_create
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - students
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Student'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Student'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Student'
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Student'
-          description: ''
-  /course/:
-    post:
-      operationId: course_create
-      tags:
-      - course
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Course'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Course'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Course'
-        required: true
-      security:
-      - jwtAuth: []
-      - {}
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
   /courses/:
     get:
       operationId: courses_list
@@ -556,7 +21,6 @@ paths:
       - courses
       security:
       - jwtAuth: []
-      - {}
       responses:
         '200':
           content:
@@ -584,13 +48,539 @@ paths:
         required: true
       security:
       - jwtAuth: []
-      - {}
       responses:
         '201':
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Course'
+          description: ''
+  /courses/{course_id}/assignments/{id}/:
+    get:
+      operationId: courses_assignments_retrieve
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentDetail'
+          description: ''
+    put:
+      operationId: courses_assignments_update
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssignmentDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssignmentDetail'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentDetail'
+          description: ''
+    patch:
+      operationId: courses_assignments_partial_update
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAssignmentDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAssignmentDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAssignmentDetail'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentDetail'
+          description: ''
+    delete:
+      operationId: courses_assignments_destroy
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /courses/{course_id}/staff/:
+    get:
+      operationId: courses_staff_retrieve
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseStaff'
+          description: ''
+    put:
+      operationId: courses_staff_update
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CourseStaff'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CourseStaff'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CourseStaff'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseStaff'
+          description: ''
+    patch:
+      operationId: courses_staff_partial_update
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourseStaff'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourseStaff'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourseStaff'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseStaff'
+          description: ''
+    delete:
+      operationId: courses_staff_destroy
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /courses/{course_id}/students/:
+    get:
+      operationId: courses_students_list
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+          description: ''
+    post:
+      operationId: courses_students_create
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Student'
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+  /courses/{course_id}/students/{id}/:
+    get:
+      operationId: courses_students_retrieve
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDetail'
+          description: ''
+    put:
+      operationId: courses_students_update
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StudentDetail'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDetail'
+          description: ''
+    patch:
+      operationId: courses_students_partial_update
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentDetail'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentDetail'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStudentDetail'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentDetail'
+          description: ''
+    delete:
+      operationId: courses_students_destroy
+      parameters:
+      - in: path
+        name: course_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /courses/{id}/:
+    get:
+      operationId: courses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    put:
+      operationId: courses_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    patch:
+      operationId: courses_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    delete:
+      operationId: courses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /courses/{id}/assignments/:
+    get:
+      operationId: courses_assignments_list
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssignmentList'
+          description: ''
+    post:
+      operationId: courses_assignments_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssignmentList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssignmentList'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentList'
           description: ''
   /users/login/:
     post:
@@ -729,6 +719,33 @@ components:
           items:
             $ref: '#/components/schemas/AssignmentList'
           readOnly: true
+    PatchedCourseStaff:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        user:
+          type: integer
+          readOnly: true
+        course:
+          type: integer
+          readOnly: true
+    PatchedStudentDetail:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        submissions:
+          type: string
+          readOnly: true
+        attendance:
+          type: string
+          readOnly: true
     Student:
       type: object
       properties:
@@ -769,22 +786,6 @@ components:
       - id
       - name
       - submissions
-    StudentEnrollment:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        user:
-          type: integer
-          readOnly: true
-        course:
-          type: integer
-          readOnly: true
-      required:
-      - course
-      - id
-      - user
     Submission:
       type: object
       properties:

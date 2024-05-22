@@ -89,51 +89,60 @@ class VerifyUser(APIView):
 # CoursesView
 # think we do not need one list and create because list = list and create = create so they do both, they inhere both, get and post
 class Courses(generics.ListCreateAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
-    queryset = Course.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CourseSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Course.objects.filter(coursestaff__user=user)
 
 
 # CourseView
 class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
-    queryset = Course.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = CourseSerializer
     lookup_field = "id"
 
-    # def get_queryset(self):
-    # 	return Course.objects.filter(id=self.kwargs['course_id'])
-
-    # def retrieve(self, request, *args, **kwargs):
-    # 	instance = self.get_object()
-    # 	serializer = self.get_serializer(instance)
-    # 	return Response(serializer.data)
+    def get_queryset(self):
+        user = self.request.user
+        return Course.objects.filter(coursestaff__user=user)
 
 
-# CourseStaffView
 class Staff(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CourseStaff.objects.all()
     serializer_class = CourseStaffSerializer
 
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return CourseStaff.objects.filter(
+    #         course_id=self.kwargs["course_id"], user_id=self.kwargs["user_id"]
+    #     )
 
-# AssignmentsView
+
 class Assignments(generics.ListCreateAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
-    # queryset = Assignment.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = AssignmentListSerializer
     lookup_field = "id"
 
     def get_queryset(self):
-        return Assignment.objects.filter(course_id=self.kwargs["id"])
+        user = self.request.user
+        return Assignment.objects.filter(
+            course_id=self.kwargs["id"], course__coursestaff__user=user
+        )
 
 
-# AssignmentView
 class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Assignment.objects.all()
     serializer_class = AssignmentDetailSerializer
     lookup_field = "id"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Assignment.objects.filter(
+            course_id=self.kwargs["course_id"], course__coursestaff__user=user
+        )
 
     def put(self, request, *args, **kwargs):
         assignment = self.get_object()
@@ -169,21 +178,27 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
 
 
-# StudentsView
 class Students(generics.ListCreateAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = StudentSerializer
 
     def get_queryset(self):
-        return StudentEnrollment.objects.filter(course_id=self.kwargs["course_id"])
+        user = self.request.user
+        return StudentEnrollment.objects.filter(
+            course_id=self.kwargs["course_id"], course__coursestaff__user=user
+        )
 
 
-# Student Detail
 class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = [permissions.IsAuthenticated]
-    queryset = StudentEnrollment.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = StudentDetailSerializer
     lookup_field = "id"
+
+    def get_queryset(self):
+        user = self.request.user
+        return StudentEnrollment.objects.filter(
+            course_id=self.kwargs["course_id"], course__coursestaff__user=user
+        )
 
     def put(self, request, *args, **kwargs):
         student = self.get_object()
