@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -119,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.passwrd_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -170,4 +173,33 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
+}
+
+UNFOLD = {
+    "SITE_TITLE": 'Cohorty Admin',
+    "SITE_HEADER": 'Cohorty Admin',
+    "SITE_URL": "/",
+    # "SITE_ICON": lambda request: static("icon.svg"),  # both modes, optimise for 32px height
+    # "SITE_ICON": {
+    #     "light": lambda request: static("icon-light.svg"),  # light mode
+    #     "dark": lambda request: static("icon-dark.svg"),  # dark mode
+    # },
+    # # "SITE_LOGO": lambda request: static("logo.svg"),  # both modes, optimise for 32px height
+    # "SITE_LOGO": {
+    #     "light": lambda request: static("logo-light.svg"),  # light mode
+    #     "dark": lambda request: static("logo-dark.svg"),  # dark mode
+    # },
+    "SITE_SYMBOL": "settings",  # symbol from icon set
+    "SHOW_HISTORY": True, # show/hide "History" button, default: True
+    "SHOW_VIEW_ON_SITE": True, # show/hide "View on site" button, default: True
+    # "ENVIRONMENT": "sample_app.environment_callback",
+    # "DASHBOARD_CALLBACK": "sample_app.dashboard_callback",
+    # "THEME": "dark", # Force theme: "dark" or "light". Will disable theme switcher
+    # "LOGIN": {
+    #     "image": lambda request: static("sample/login-bg.jpg"),
+    #     "redirect_after": lambda request: reverse_lazy("admin:APP_MODEL_changelist"),
+    # },
+    # "STYLES": [
+    #     lambda request: static("css/style.css"),
+    # ]
 }
