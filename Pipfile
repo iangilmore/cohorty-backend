@@ -11,6 +11,11 @@ djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 django-unfold = "*"
 drf-spectacular = "*"
+django-environ = "*"
+dj-database-url = "*"
+django-heroku = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
