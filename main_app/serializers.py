@@ -64,13 +64,6 @@ class AssignmentDetailSerializer(serializers.ModelSerializer):
     fields = ['id', 'name', 'due_date', 'submissions']
 
 
-class StudentEnrollmentSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = StudentEnrollment
-		fields = '__all__'
-		read_only_fields = ['course', 'user']
-
-
 class CourseStaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseStaff
