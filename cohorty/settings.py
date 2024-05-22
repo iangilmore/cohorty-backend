@@ -51,10 +51,11 @@ SECRET_KEY = 'django-insecure-f$6q8)8n-8nu=is*bk=m=b-zldh5c%3ebo)+&&_y4+p+qei7bq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', 'api.cohorty.webdevstuff.ninja']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4173",  # Assuming default port for Vite dev
+    "http://localhost:4173",  # Default port for Vite dev
+    'https://cohorty.webdevstuff.ninja', # Production frontend
 ]
 
 # Application definition
