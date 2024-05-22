@@ -15,7 +15,6 @@ from datetime import timedelta
 from django.templatetags.static import static
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
-
 import environ  
 import dj_database_url
 import django_heroku
@@ -23,9 +22,6 @@ import django_heroku
 env = environ.Env()
 environ.Env.read_env()
 
-# catcollector/settings.py
-
-# These are required
 DATABASE_URL=env('DATABASE_URL')
 SECRET_KEY=env('SECRET_KEY')
 
@@ -81,10 +77,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -130,9 +125,6 @@ WSGI_APPLICATION = 'cohorty.wsgi.application'
 
 # Database
 # # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-
-# catcollector/settings.py
 
 DATABASES = {
     'default': 
@@ -241,9 +233,6 @@ UNFOLD = {
     # ]
 }
 
-# catcollector/settings.py
-
-# Add this to the very bottom of your settings.py file
-# If you don't your app will not deploy properly
+# Heroku deploy setting
 django_heroku.settings(locals())
 
