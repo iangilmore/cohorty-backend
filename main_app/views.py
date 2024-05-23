@@ -120,10 +120,9 @@ class Assignments(generics.ListCreateAPIView):
         )
         
     def post(self, request, *args, **kwargs):
-        course = Course.objects.get(id=kwargs["course_id"])
-        name = request.data.get("name")
-        due_date = request.data.get("due_date")
-        serializer = AssignmentListSerializer(course=course, name=name, due_date=due_date)
+        course_id = kwargs["course_id"]
+        course = Course.objects.get(id=course_id)
+        serializer = AssignmentListSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save(course=course)
