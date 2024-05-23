@@ -181,7 +181,8 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         assignment = self.get_object()
         assignment.delete()
-        return self.destroy(request, *args, **kwargs)
+        # return self.destroy(request, *args, **kwargs)
+        return Response(data={"message": "Assignment deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 
 class Students(generics.ListCreateAPIView):
