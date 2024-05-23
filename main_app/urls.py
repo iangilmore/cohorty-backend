@@ -24,7 +24,7 @@ urlpatterns = [
         name="course_staff",
     ),
     path(
-        "courses/<int:id>/assignments/",
+        "courses/<int:course_id>/assignments/",
         Assignments.as_view(),
         name="assignments",
     ),

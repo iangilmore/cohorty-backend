@@ -111,16 +111,16 @@ class Staff(generics.RetrieveUpdateDestroyAPIView):
 class Assignments(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = AssignmentListSerializer
-    lookup_field = "id"
+    # lookup_field = "course_id"
 
     def get(self, request, *args, **kwargs):
         user = self.request.user
         return Assignment.objects.filter(
-            course_id=self.kwargs["id"], course__coursestaff__user=user
+            course_id=self.kwargs["course_id"], course__coursestaff__user=user
         )
         
     def post(self, request):
-        course = Course.objects.get(id=self.kwargs["id"])
+        course = Course.objects.get(id=self.kwargs["course_id"])
         serializer = AssignmentListSerializer(data=request.data)
 
         if serializer.is_valid():
