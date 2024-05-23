@@ -30,31 +30,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Course'
           description: ''
-    post:
-      operationId: courses_create
-      tags:
-      - courses
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Course'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Course'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Course'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
   /courses/{course_id}/assignments/{id}/:
     get:
       operationId: courses_assignments_retrieve
@@ -413,29 +388,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/StudentDetail'
           description: ''
-    delete:
-      operationId: courses_students_destroy
-      parameters:
-      - in: path
-        name: course_id
-        schema:
-          type: integer
-        required: true
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - courses
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
   /courses/{id}/:
     get:
-      operationId: courses_retrieve
+      operationId: courses_list_2
       parameters:
       - in: path
         name: id
@@ -451,84 +406,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Course'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
           description: ''
-    put:
-      operationId: courses_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - courses
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Course'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Course'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/Course'
-        required: true
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
-    patch:
-      operationId: courses_partial_update
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - courses
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedCourse'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedCourse'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedCourse'
-      security:
-      - jwtAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Course'
-          description: ''
-    delete:
-      operationId: courses_destroy
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-      tags:
-      - courses
-      security:
-      - jwtAuth: []
-      responses:
-        '204':
-          description: No response body
   /courses/{id}/assignments/:
     get:
       operationId: courses_assignments_list
@@ -577,6 +458,67 @@ paths:
       - jwtAuth: []
       responses:
         '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentList'
+          description: ''
+    put:
+      operationId: courses_assignments_update_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssignmentList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssignmentList'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentList'
+          description: ''
+    patch:
+      operationId: courses_assignments_partial_update_2
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAssignmentList'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAssignmentList'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAssignmentList'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
           content:
             application/json:
               schema:
@@ -700,7 +642,7 @@ components:
           items:
             $ref: '#/components/schemas/Submission'
           readOnly: true
-    PatchedCourse:
+    PatchedAssignmentList:
       type: object
       properties:
         id:
@@ -709,16 +651,9 @@ components:
         name:
           type: string
           maxLength: 255
-        students:
-          type: array
-          items:
-            $ref: '#/components/schemas/Student'
-          readOnly: true
-        assignments:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssignmentList'
-          readOnly: true
+        due_date:
+          type: string
+          format: date
     PatchedCourseStaff:
       type: object
       properties:
@@ -807,3 +742,5 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+servers:
+- https://api.cohorty.webdevstuff.ninja

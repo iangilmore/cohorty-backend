@@ -89,6 +89,7 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API for Cohorty, where leading educators track student progress though their courses.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'SERVERS': ['https://api.cohorty.webdevstuff.ninja'],
     # OTHER SETTINGS
 }
 
