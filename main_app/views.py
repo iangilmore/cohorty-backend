@@ -111,7 +111,7 @@ class Staff(generics.RetrieveUpdateDestroyAPIView):
 class Assignments(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = AssignmentListSerializer
-    # lookup_field = "course_id"
+    lookup_field = "course_id"
 
     def get(self, request, *args, **kwargs):
         user = self.request.user
@@ -179,8 +179,7 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
     
     def delete(self, request, *args, **kwargs):
-        assignment = kwargs["id"]
-        print(assignment)
+        assignment = self.get_object()
         assignment.delete()
         return self.destroy(request, *args, **kwargs)
 
