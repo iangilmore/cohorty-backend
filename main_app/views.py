@@ -107,15 +107,8 @@ class Staff(generics.RetrieveUpdateDestroyAPIView):
     queryset = CourseStaff.objects.all()
     serializer_class = CourseStaffSerializer
 
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     return CourseStaff.objects.filter(
-    #         course_id=self.kwargs["course_id"], user_id=self.kwargs["user_id"]
-    #     )
 
-
-# class Assignments(generics.ListCreateAPIView, generics.RetrieveUpdateAPIView):
-class Assignments(APIView):
+class Assignments(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = AssignmentListSerializer
     lookup_field = "id"
@@ -126,7 +119,7 @@ class Assignments(APIView):
             course_id=self.kwargs["id"], course__coursestaff__user=user
         )
         
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         course = Course.objects.get(id=self.kwargs["id"])
         serializer = AssignmentListSerializer(data=request.data)
 
@@ -135,26 +128,6 @@ class Assignments(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def patch(self, request, *args, **kwargs):
-        assignments_data = request.data
-        assignment_ids = [assignment_data.get("id") for assignment_data in assignments_data]
-        existing_assignments = Assignment.objects.filter(id__in=assignment_ids)
-        
-        for assignment_data in assignments_data:
-            assignment_id = assignment_data.get("id")
-            if assignment_id:
-                assignment = existing_assignments.filter(id=assignment_id).first()
-                if assignment:
-                    serializer = AssignmentListSerializer(assignment, data=assignment_data)
-                    if serializer.is_valid():
-                        serializer.save()
-            # else:
-            #     serializer = AssignmentDetailSerializer(data=assignment_data)
-            #     if serializer.is_valid():
-            #         serializer.save()
-        
-        return self.update(request, *args, **kwargs)
 
 
 class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
