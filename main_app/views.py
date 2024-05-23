@@ -145,7 +145,7 @@ class Assignments(generics.ListCreateAPIView, generics.RetrieveUpdateAPIView):
             if assignment_id:
                 assignment = existing_assignments.filter(id=assignment_id).first()
                 if assignment:
-                    serializer = AssignmentDetailSerializer(assignment, data=assignment_data)
+                    serializer = AssignmentListSerializer(assignment, data=assignment_data)
                     if serializer.is_valid():
                         serializer.save()
             # else:
