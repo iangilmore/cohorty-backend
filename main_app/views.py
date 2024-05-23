@@ -114,12 +114,13 @@ class Staff(generics.RetrieveUpdateDestroyAPIView):
     #     )
 
 
-class Assignments(generics.ListCreateAPIView, generics.RetrieveUpdateAPIView):
+# class Assignments(generics.ListCreateAPIView, generics.RetrieveUpdateAPIView):
+class Assignments(APIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = AssignmentListSerializer
     lookup_field = "id"
 
-    def get_queryset(self):
+    def get(self, request, *args, **kwargs):
         user = self.request.user
         return Assignment.objects.filter(
             course_id=self.kwargs["id"], course__coursestaff__user=user
