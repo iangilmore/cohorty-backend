@@ -124,7 +124,6 @@ class Assignments(generics.ListCreateAPIView):
         course = Course.objects.get(id=course_id)
         name = request.data.get("name")
         due_date = request.data.get("due_date")
-        # serializer = AssignmentListSerializer(data=request.data)
         serializer = AssignmentListSerializer(data={"name": name, "due_date": due_date, "course": course_id})
 
         if serializer.is_valid():
@@ -180,7 +179,8 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
     
     def delete(self, request, *args, **kwargs):
-        assignment = self.get_object()
+        assignment = kwargs["id"]
+        print(assignment)
         assignment.delete()
         return self.destroy(request, *args, **kwargs)
 
