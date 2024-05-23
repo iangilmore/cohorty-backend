@@ -24,11 +24,11 @@ environ.Env.read_env()
 
 DATABASE_URL=env('DATABASE_URL')
 SECRET_KEY=env('SECRET_KEY')
-PGDATABASE=env('PGDATABASE')
-PGHOST=env('PGHOST')
-PGPASSWORD=env('PGPASSWORD')
-PGPORT=env('PGPORT')
-PGUSER=env('PGUSER')
+# PGDATABASE=env('PGDATABASE')
+# PGHOST=env('PGHOST')
+# PGPASSWORD=env('PGPASSWORD')
+# PGPORT=env('PGPORT')
+# PGUSER=env('PGUSER')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
