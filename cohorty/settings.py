@@ -45,7 +45,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com', 'api.cohorty.webdev
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4173",  # Default port for Vite dev
     'https://cohorty.webdevstuff.ninja', # Production frontend
-    '*'
+    'https://*'
 ]
 
 # Application definition
