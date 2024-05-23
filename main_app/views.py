@@ -28,14 +28,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 
 
-# Define the home vie
 class Home(APIView):
     def get(self, request):
-        content = {"message": "Welcome to the Cohorty API home route!"}
+        content = {"message": "Welcome to the Cohorty API"}
         return Response(content)
 
 
-# Define the login view
 class Login(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -67,7 +65,6 @@ class Login(APIView):
         )
 
 
-# VerifyUserView
 class VerifyUser(APIView):
     # This ensures that only authenticated users can access this view.
     permission_classes = [permissions.IsAuthenticated]
@@ -86,9 +83,7 @@ class VerifyUser(APIView):
         )
 
 
-# CoursesView
-# think we do not need one list and create because list = list and create = create so they do both, they inhere both, get and post
-class Courses(generics.ListCreateAPIView):
+class Courses(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CourseSerializer
 
@@ -97,8 +92,7 @@ class Courses(generics.ListCreateAPIView):
         return Course.objects.filter(coursestaff__user=user)
 
 
-# CourseView
-class CourseDetail(generics.RetrieveUpdateDestroyAPIView):
+class CourseDetail(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = CourseSerializer
     lookup_field = "id"
@@ -120,7 +114,7 @@ class Staff(generics.RetrieveUpdateDestroyAPIView):
     #     )
 
 
-class Assignments(generics.ListCreateAPIView):
+class Assignments(generics.ListCreateAPIView, generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = AssignmentListSerializer
     lookup_field = "id"
@@ -130,6 +124,36 @@ class Assignments(generics.ListCreateAPIView):
         return Assignment.objects.filter(
             course_id=self.kwargs["id"], course__coursestaff__user=user
         )
+        
+    def post(self, request, *args, **kwargs):
+        course = Course.objects.get(id=self.kwargs["id"])
+        serializer = AssignmentListSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save(course=course)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def patch(self, request, *args, **kwargs):
+        assignments_data = request.data
+        assignment_ids = [assignment_data.get("id") for assignment_data in assignments_data]
+        existing_assignments = Assignment.objects.filter(id__in=assignment_ids)
+        
+        for assignment_data in assignments_data:
+            assignment_id = assignment_data.get("id")
+            if assignment_id:
+                assignment = existing_assignments.filter(id=assignment_id).first()
+                if assignment:
+                    serializer = AssignmentDetailSerializer(assignment, data=assignment_data)
+                    if serializer.is_valid():
+                        serializer.save()
+            # else:
+            #     serializer = AssignmentDetailSerializer(data=assignment_data)
+            #     if serializer.is_valid():
+            #         serializer.save()
+        
+        return self.update(request, *args, **kwargs)
 
 
 class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -176,6 +200,11 @@ class AssignmentDetail(generics.RetrieveUpdateDestroyAPIView):
                     serializer.save(assignment=assignment)
 
         return self.update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        assignment = self.get_object()
+        assignment.delete()
+        return self.destroy(request, *args, **kwargs)
 
 
 class Students(generics.ListCreateAPIView):
@@ -189,7 +218,7 @@ class Students(generics.ListCreateAPIView):
         )
 
 
-class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+class StudentDetail(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = StudentDetailSerializer
     lookup_field = "id"

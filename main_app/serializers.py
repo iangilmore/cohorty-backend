@@ -56,7 +56,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
     model = Submission
     fields = ['id', 'student', 'is_complete', 'assignment']
 
-
+      
 class AssignmentDetailSerializer(serializers.ModelSerializer):
   submissions = SubmissionSerializer(many=True, read_only=True)
   class Meta:
